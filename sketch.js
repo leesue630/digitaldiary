@@ -1,8 +1,14 @@
 window.addEventListener("keydown", function (e) {
-  if (e.keyCode == 32 && e.target == document.body) {
+  if (e.keyCode === 32 && e.target == document.body) {
     e.preventDefault();
   }
 });
+
+window.addEventListener("keydown", function (e) {
+    if (e.keyCode === 222 && e.target == document.body) {
+      e.preventDefault();
+    }
+  });
 
 var t = 0;
 var rot_t = 0;
@@ -38,13 +44,19 @@ function draw() {
 }
 
 function validKey() {
-  return keyCode !== TAB && keyCode !== RETURN && keyCode !== DELETE;
+  return (keyCode >= 48 && keyCode <= 57) || // 0-9
+  (keyCode >= 65 && keyCode <= 90) ||        // a-z
+  (keyCode >= 219 && keyCode <= 222) ||      // [\]'
+  (keyCode >= 190 && keyCode <= 192) ||      // ./`
+  (keyCode === 173) ||                       // -
+  (keyCode === 61) ||                        // =
+  (keyCode === 59) ||                        // ;
+  (keyCode === 188) ||                       // ,
+  (keyCode === 32) ||                        // space
+  (keyCode === BACKSPACE);
 }
 
-function keyReleased() {
-  if (keyCode === BACKSPACE) {
-    console.log("backspace");
-  }
+function keyPressed() {
   if (keyCode === ENTER) {
     console.log("enter");
     t += 30;
@@ -99,7 +111,7 @@ function writeText() {
     }
   }
 
-  fill(0, 0, 0, 5);
+  fill('rgba(0,0,0, 0.1)');
   rect(0, 0, width, height);
 
   var x = noise(t) * halfWidth;
@@ -118,3 +130,7 @@ function writeText() {
   pop();
   //t+=.1;
 }
+
+function windowResized() {
+    resizeCanvas(windowWidth, windowHeight);
+  }
